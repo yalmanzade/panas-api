@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Example</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+  </head>
+  <body>
+    <main>
+      <section class="section">
+        <div class="container">
+          <form action="result.php" method="post">
+            <label for="date" class="label">Date</label>
+            <input class="input" type="text" name="date" value="" disabled />
+            <label for="time" class="label">Time</label>
+            <input class="input" type="text" name="time" value="" disabled />
+            <label for="status" class="label">Status</label>
+            <input class="input" type="text" name="status" value="" disabled />
+          </form>
+          <a href="results.php?action=cancel"
+            ><button class="button is-danger">Cancel</button></a
+          >
+          <a href="results.php?action=modify"
+            ><button class="button is-modify">Modify</button></a
+          >
+          <a href="results.php?action=approve"
+            ><button class="button is-warning">Approve</button></a
+          >
+        </div>
+      </section>
+      <section class="section">
+        <div class="card">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <img
+                    src="https://bulma.io/images/placeholders/96x96.png"
+                    alt="Placeholder image"
+                  />
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-4">John Smith</p>
+                <p class="subtitle is-6">@johnsmith</p>
+              </div>
+            </div>
+
+            <div class="content">
+              Teaches
+              <br />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section">
+        <div class="container">
+          <form action="POST">
+            <label for="code" class="label">Confirmation Code</label>
+            <input type="number" name="code" id="code" class="input" />
+            <input class="button is-link" type="submit" value="Submit" />
+          </form>
+          <p class="subtitle is-6">We just sent an email to</p>
+        </div>
+      </section>
+      <section class="section">
+        <label for="start_times" class="label">From</label>
+        <select name="">
+          <option value="10">10</option>
+        </select>
+        <span>:</span>
+        <select name="">
+          <option value="10">30</option>
+        </select>
+        <select name="">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+        <label for="end_times" class="label">To</label>
+        <select name="">
+          <option value="10">10</option>
+        </select>
+        <span>:</span>
+        <select name="">
+          <option value="10">30</option>
+        </select>
+        <select name="">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+      </section>
+      <input type="text" name="name" value="" />
+      <input type="text" name="name" value="" />
+      <input class="button is-link" type="submit" value="Submit" />
+    </main>
+    <input type="text" name="name" id="name" />
+    <input type="text" name="email" id="email" />
+  </body>
+</html>
