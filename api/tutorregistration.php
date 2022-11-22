@@ -1,7 +1,6 @@
 <?php 
 require_once '../models/user.php';
 require_once '../models/database.php';
-
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     try{
         $db = new Database();
@@ -49,7 +48,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             echo 'Congratulatrions, ' .$tutor->name . "\n";
             echo 'You are a tutor!';
         }else{
-            echo "Error, Please try creating the account again \n";
+            $vars = ['error' => 'TutorReg',
+                    'return' => 'login'];
+            $param = http_build_query($vars);
+            header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+            exit;
         }
     }catch(Exception $ex){
         echo "Error ". $ex->getMessage(). "\n";
@@ -58,6 +61,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $db = null;
     }
 }else{
-    echo "Bad Request \n";
+    $vars = ['error' => 'BadReq',
+            'return' => 'login'];
+    $param = http_build_query($vars);
+    header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+    exit;
 }   
 

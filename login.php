@@ -9,6 +9,8 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
+    <link rel="stylesheet" href="static/style.css">
+    <script src="scripts/validation.js" defer></script>
   </head>
   <body>
     <main class="container">
@@ -24,7 +26,8 @@
               name="email"
               required
             />
-            <select name="usertype" id="usertype" required>
+            <label for="usertype" class="label">Login As</label>
+            <select type="select" name="usertype" id="usertype" required>
               <option value="0">Student</option>
               <option value="1">Tutor</option>
             </select>

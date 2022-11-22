@@ -9,6 +9,8 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
+    <link rel="stylesheet" href="static/style.css">
+    <script src="scripts/validation.js" defer></script>
   </head>
   <body>
     <main>

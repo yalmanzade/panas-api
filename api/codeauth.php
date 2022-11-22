@@ -31,12 +31,15 @@
                 'confirmation' => True,
                 'session' => $admin];
         $param = http_build_query($vars);
-        $url = "http://localhost/panas/result.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
+        $url = "http://localhost/panas-api/result.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
         header('Location:'.$url);
         exit;
       }else{
-          echo "Error at Code Authentication\n";
-          echo 'Result is: '. $result;
+        $vars = ['error' => 'NoAuth',
+                  'return' => 'login'];
+        $param = http_build_query($vars);
+        header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+        exit;
       }
     }catch(Exception $ex){  
       echo "Error: ". $ex->getMessage() . "\n";
@@ -47,10 +50,14 @@
       $auth = null;
     }
   }else{
-    echo "Bad Request. \n";
+    $vars = ['error' => 'BadReq',
+              'return' => 'login'];
+    $param = http_build_query($vars);
+    header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+    exit;
   }
   function sendPost($user, $result){
-            $url = "http://localhost/panas/result.php"; //DevSkim: ignore DS137138 until 2022-12-13 
+            $url = "http://localhost/panas-api/result.php"; //DevSkim: ignore DS137138 until 2022-12-13 
         $data = array("message"=>"Success",
                       "name"=>$result['name'],
                       "email"=> $result["login_email"],

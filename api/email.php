@@ -16,5 +16,9 @@ if($_SERVER['REQUEST_METHOD']=='GET' && $_GET['id'] && strlen($_GET['id']) > 1 )
     $meeting->getMeeting();
     // var_dump($meeting);
 }else{
-    echo "There is a problem with the url \n";
+    $vars = ['error' => 'BadReq',
+              'return' => 'login'];
+    $param = http_build_query($vars);
+    header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+    exit;
 }

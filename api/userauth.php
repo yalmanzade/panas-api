@@ -26,9 +26,10 @@
       header('Location:'.$url);
       exit;
     }else{
-      echo json_encode(
-        array('message' => 'Auth Failed')
-      );
+      $vars = ['error' => 'NoAuth',
+              'return' => 'login'];
+      $param = http_build_query($vars);
+      header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
       exit;
     }
   }catch(Exception $ex){
@@ -38,33 +39,10 @@
     $db = null;
   }
 }else{
-  echo "Error: Bad Post Request.\n";
-}
-if ($_SERVER["REQUEST_METHOD"] == "GET"){
-  try{
-    $auth->generated_code = $_POST['code'];
-    $result = $auth->confirmCode();
-    if($result){
-        $vars = ['message' => 'Auth Success',
-              'id' => $auth->login_email,
-              'name' => $auth->name,
-              'email' => $auth->login_email,
-              'confirmation' => True];
-        $param = http_build_query($vars);
-        $url = "http://localhost/panas/result.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
-        header('Location:'.$url);
-        exit;
-    }else{
-        echo 'Error, Wrong Code';
-    }
-
-  }catch(Exception $ex){
-    echo "Error: ". $ex->getMessage() . "\n";
-  }finally{
-    $auth = null;
-    $db = null;
-  }
-}else{
-  echo "Error: Bad Get Request.\n";
+  $vars = ['error' => 'BadReq',
+          'return' => 'login'];
+  $param = http_build_query($vars);
+  header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+  exit;
 }
   

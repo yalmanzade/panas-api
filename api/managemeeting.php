@@ -5,7 +5,6 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
   require_once  '../models/meeting.php';
   require_once  '../models/database.php';
-
   if($_SERVER['REQUEST_METHOD'] =='POST'){
     try{
       $error = false;
@@ -28,12 +27,20 @@
                 $error = $meeting->confirmMeeting();
         }
       }else{
-        echo 'Empty Action';
+        $vars = ['error' => 'NoAct',
+                'return' => 'login'];
+        $param = http_build_query($vars);
+        header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+        exit;
       }
       if($error == false){
-        echo 'Error at managing meeting: '.$error. "\n";
+        $vars = ['error' => 'MeetError',
+                'return' => 'newstudent'];
+        $param = http_build_query($vars);
+        header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+        exit;
       }else{
-        echo 'No error: '.$meeting->action. " done. \n";
+        echo 'Success: '.$meeting->action. " done. \n";
       }
     }catch(Exception $ex){
       echo 'Error: ' .$ex->getMessage() . "\n";
@@ -42,5 +49,9 @@
       $db = null;
     }
   }else{
-    echo "Bad Request. \n";
+    $vars = ['error' => 'BadReq',
+              'return' => 'login'];
+    $param = http_build_query($vars);
+    header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+    exit;
   }

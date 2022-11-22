@@ -5,6 +5,7 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');      
   require_once '../models/database.php';
   require_once '../models/auth.php';
+  require_once '../data/errormessages.php';
   $userTypes = array('student', 'tutors');  
   if ($_SERVER["REQUEST_METHOD"] == "POST"){
     try{
@@ -25,11 +26,16 @@
                 'confirmation' => false,
                 'usertype' => $userType];
           $param = http_build_query($vars);
-          $url = "http://localhost/panas/result.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
+          $url = "http://localhost/panas-api/result.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
           header('Location:'.$url);
           exit;
-      }else{
-        echo "We could not find this user $user->email please try registering again or contact support \n";
+      }else{  
+        // $errorCodes['NoUser'] = "We could not find this user $user->email please try registering again or contact support.";
+        $vars = ['error' => 'NoUser',
+                'return' => 'newstudent'];
+        $param = http_build_query($vars);
+        header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+        exit;
       }
     }catch(Exception $ex){
       echo "Error: " .$ex->getMessage(). "\n";
@@ -38,6 +44,10 @@
       $user = null;
     }
   }else{
-    echo "Invalid POST Request \n";
+    $vars = ['error' => 'BadReq',
+              'return' => 'login'];
+    $param = http_build_query($vars);
+    header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+    exit;
   }
 

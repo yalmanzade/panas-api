@@ -19,7 +19,10 @@
         $auth->login_email = strip_tags($_POST['email']);
         $userExists = $student->studentExists();
         if($userExists == true){
-            echo "User $student->name is already registered. Please log in.\n";
+            $vars = ['error' => 'UserEx',
+                    'return' => 'login'];
+            $param = http_build_query($vars);
+            header('Location: http://localhost/panas-api/warning.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
             exit;
         }else{
             $student->id = random_int(100000,999999);
@@ -27,11 +30,15 @@
             if ($result){
                 $vars = ['message' => $student->name];
                 $param = http_build_query($vars);
-                $url = "http://localhost/panas/login.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
+                $url = "http://localhost/panas-api/login.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
                 header('Location:'.$url);
                 exit;
             }else{
-                echo "Failed to register $student->name. Please try again.";
+                $vars = ['error' => 'StuReg',
+                        'return' => 'login'];
+                $param = http_build_query($vars);
+                header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+                exit;
             }
         }
     }catch(Exception $ex){
@@ -41,5 +48,9 @@
         $db = null;
     }
 }else{
-  echo "Error: Bad Post Request.\n";
+    $vars = ['error' => 'BadReq',
+              'return' => 'login'];
+    $param = http_build_query($vars);
+    header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+    exit;
 }
