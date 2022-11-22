@@ -17,7 +17,7 @@
       <section class="section">
         <div class="container">
           <h1 class="title">Log In</h1>
-          <form action="api/login.php" method="POST" class="form">
+          <form action="api/userlogin.php" method="post" class="form">
             <label for="email" class="label">Email</label>
             <input
               type="email"

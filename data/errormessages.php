@@ -9,4 +9,8 @@ $errorCodes['MeetError'] = "This meeting can't me modified at this time. Please 
 $errorCodes['StuReg'] = "We could not register you at this time. Please try again or contact support.";
 $errorCodes['UserEx'] = "You already have an account. Please log in instead.";
 $errorCodes['TutorReg'] = "We could not register this tutor at this time. Please try again and check the information entered. If that does not help, please contact support.";
+$errorCodes['BadUrl'] = "The was as problem with this URL please try again.";
+$errorCodes['CoSuc'] = "Course has been deleted.";
+$errorCodes['CoErr'] = "Course could not be deleted. Please try again or contact support";
+$errorCodes['Data'] = "Database Error. Please try again or contact support";
 

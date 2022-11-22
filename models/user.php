@@ -58,7 +58,6 @@ class User {
         }
     }
 }
-
 class Tutor extends User{
     public $meetingdays = array();
     public $meetingtimes = array();
@@ -74,8 +73,47 @@ class Tutor extends User{
         $this->meetingdays = array();
         $this->meetingtimes = array();
         $this->classlist = array();
+        $this->db = $db;
         $this->connection = $db;
     }
+    public function getallTutors(){ 
+        try{
+            $query = "SELECT * FROM tutors";
+            $this->connection = $this->db->connect();
+            $result = $this->connection->query($query);
+            if($result){
+                return $result;
+            }else{
+                return false;
+            }
+        }catch(Exception $ex){
+            echo "Error: " .$ex->getMessage();
+        }finally{
+            $this->db = null;
+            $this->connection = null;
+        }
+    }
+    public function deleteTutor(){
+        try{
+            $query = "SELECT * FROM tutors WHERE tutor_id = :id";
+            $this->connection = $this->db->connect();
+            //Prepare Statement
+            $stmt = $this->connection->prepare($query);
+            //Bind Data
+            $stmt->bindParam(':id', $this->id);
+            $result = $stmt->execute();
+            if($result){
+                return $result;
+            }else{
+                return false;
+            }
+        }catch(Exception $ex){
+            echo "Error: " .$ex->getMessage();
+        }finally{
+            $this->db = null;
+            $this->connection = null;
+        }
+    } 
     public function registerTutor(){
         try{
             $this->connection = $this->connection->connect();

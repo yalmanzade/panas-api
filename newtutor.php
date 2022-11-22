@@ -17,7 +17,7 @@
     <main>
         <section class="section container">
             <h1 class="title">Create New Tutor</h1>
-            <form class="form" method='POST' action="../panas/dates.php">
+            <form class="form" method='POST' action="dates.php">
                 <label class="label" for="name">Name</label>
                 <input class="input" type="text" name="name" id="name" required />
                 <label class="label" for="email">Email</label>

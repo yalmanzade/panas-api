@@ -10,12 +10,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         require_once '../models/course.php';
         $db = new Database();
         $course = new Course($db);
-        $action = $_GET['action'];
+        $action = strip_tags($_GET['action']);
         if($action == 'add'){
-            $course->name = htmlspecialchars(strip_tags($_POST['name']));
+            $course->name = strip_tags($_POST['name']);
             $course->addCourse();
         }if($action == 'delete'){
-            $course->code = htmlspecialchars(strip_tags($_POST['course-delete']));
+            $course->code = strip_tags($_POST['course-delete']);
             $course->deleteCourse();
         }
     }
@@ -29,6 +29,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $vars = ['error' => 'BadReq',
               'return' => 'courses'];
     $param = http_build_query($vars);
-    header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+    header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
     exit;
 }

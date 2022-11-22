@@ -10,5 +10,3 @@ $adminCodes = array(2353212312,1287686522,4353456420,6436634575,4356436532,56445
 $db = new Database();
 $courseObj = new Course($db);
 $courses = $courseObj->getCourses();
-
-?>

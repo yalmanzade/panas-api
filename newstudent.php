@@ -16,7 +16,7 @@
     <main>
       <section class="section container">
         <h1 class="title">Create New Student</h1>
-        <form method='POST' action="../panas/api/newstudent.php">
+        <form method='POST' action="api/newstudent.php">
           <label class="label" for="name">Name</label>
           <input class="input" type="text" name="name" id="name" required />
           <label class="label" for="email">Email</label>

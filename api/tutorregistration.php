@@ -26,8 +26,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 array_push($tutor->meetingtimes, $meetingTime);
             }
         }
-        $tutor->name = $_POST['name'];
-        $tutor->email = $_POST['email'];
+        $tutor->name = htmlspecialchars(strip_tags($_POST['name']));
+        $tutor->email = htmlspecialchars(strip_tags($_POST['email']));
         echo "\nName: " . $tutor->name;
         echo "\nEmail: " . $tutor->email; 
         echo "\n Meeting Times: ";
@@ -51,7 +51,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $vars = ['error' => 'TutorReg',
                     'return' => 'login'];
             $param = http_build_query($vars);
-            header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+            header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
             exit;
         }
     }catch(Exception $ex){
@@ -64,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $vars = ['error' => 'BadReq',
             'return' => 'login'];
     $param = http_build_query($vars);
-    header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+    header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
     exit;
 }   
 

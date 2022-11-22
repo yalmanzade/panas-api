@@ -6,6 +6,7 @@
   require_once '../models/database.php';
   require_once '../models/auth.php';
   require_once '../data/errormessages.php';
+  var_dump($_POST);
   $userTypes = array('student', 'tutors');  
   if ($_SERVER["REQUEST_METHOD"] == "POST"){
     try{
@@ -26,7 +27,7 @@
                 'confirmation' => false,
                 'usertype' => $userType];
           $param = http_build_query($vars);
-          $url = "http://localhost/panas-api/result.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
+          $url = "http://localhost/panas-api/result.php?".$param; //DevSkim: ignore DS137138 until 2022-12-12 
           header('Location:'.$url);
           exit;
       }else{  
@@ -34,7 +35,7 @@
         $vars = ['error' => 'NoUser',
                 'return' => 'newstudent'];
         $param = http_build_query($vars);
-        header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+        header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
         exit;
       }
     }catch(Exception $ex){
@@ -44,10 +45,10 @@
       $user = null;
     }
   }else{
-    $vars = ['error' => 'BadReq',
-              'return' => 'login'];
-    $param = http_build_query($vars);
-    header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
-    exit;
+    // $vars = ['error' => 'BadReq',
+    //           'return' => 'login'];
+    // $param = http_build_query($vars);
+    // header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+    // exit;
   }
 

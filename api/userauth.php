@@ -12,8 +12,8 @@
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // collect value of input field
   try{
-    $auth->name = $_POST['name'];
-    $auth->login_email = $_POST['email'];
+    $auth->name = htmlspecialchars(strip_tags($_POST['name']));
+    $auth->login_email = htmlspecialchars(strip_tags($_POST['email']));
     $result = $auth->authUser();
     if ($result){
       $vars = ['message' => 'Auth Success',
@@ -23,13 +23,13 @@
               'confirmation' => False];
       $param = http_build_query($vars);
       $url = "http://localhost/panas/result.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
-      header('Location:'.$url);
+      header('Location:'.$url, true, 301);
       exit;
     }else{
       $vars = ['error' => 'NoAuth',
               'return' => 'login'];
       $param = http_build_query($vars);
-      header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+      header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
       exit;
     }
   }catch(Exception $ex){
@@ -42,7 +42,7 @@
   $vars = ['error' => 'BadReq',
           'return' => 'login'];
   $param = http_build_query($vars);
-  header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+  header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
   exit;
 }
   

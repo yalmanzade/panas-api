@@ -24,7 +24,6 @@
                      login_email = :login_email';
             // Prepare statement
             $stmt = $this->connection->prepare($query);
-            
             // Clean data
             $this->login_email = htmlspecialchars(strip_tags($this->login_email));
             $this->name = htmlspecialchars(strip_tags($this->name));
@@ -32,7 +31,6 @@
             $stmt->bindParam(':login_email', $this->login_email);
             $stmt->bindParam(':generated_code', $this->generated_code);
             $stmt->bindParam(':name', $this->name);
-
             try{
                 $email = new Email();
                 // Execute query

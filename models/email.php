@@ -44,6 +44,7 @@ class Email{
             echo 'Message could not be sent.' . '</br>';
             echo 'Mailer Error: ' . $this->mailer->ErrorInfo;
         }
+        return true;
     }
     public function SendMeetingConfirmation($meeting){
         $this->prepareEmail();
@@ -52,14 +53,13 @@ class Email{
         $this->mailer->Body = "<p> Meeting Date: $meeting->date</p>";
         $this->mailer->Body = "<a href='http://localhost/panas/editmeeting.php?id=$meeting->id&session=1'>Edit Meeting (Tutor)</a>"; //DevSkim: ignore DS137138 until 2022-12-12 
         if($this->mailer->send()){
-            echo 'Message has been sent.';
-            echo "\r";
             return true;
         }else{
             echo 'Message could not be sent.' . "\r";
             echo 'Mailer Error: ' . $this->mailer->ErrorInfo;
             return false;
         }
+        // return true;
     }
         public function SendTutorMeetingConfirmation($meeting){
         $this->prepareEmail();
@@ -68,13 +68,14 @@ class Email{
         $this->mailer->Body = "<p> Meeting Date: $meeting->date</p>";
         $this->mailer->Body = "<a href='http://localhost/panas/editmeeting.php?id=$meeting->id'>Edit Meeting</a>"; //DevSkim: ignore DS137138 until 2022-12-12 
         if($this->mailer->send()){
-            echo 'Message has been sent.';
-            echo "\r";
+            // echo 'Message has been sent.';
+            // echo "\r";
             return true;
         }else{
             echo 'Message could not be sent.' . "\r";
             echo 'Mailer Error: ' . $this->mailer->ErrorInfo;
             return false;
         }
+        // return true;
     }
 }

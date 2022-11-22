@@ -15,7 +15,7 @@
       <section class="section">
         <div class="container">
           <h1 class="title is-4">Add Availability</h1>
-          <form method="POST" action="../panas//api//tutorregistration.php">
+          <form method="POST" action="../panas/api/tutorregistration.php">
             <label class="label" for="email">Email</label>
             <input
               class="input"
@@ -23,7 +23,8 @@
               name="email"
               id="email"
               value="<?php
-              echo $_POST['email'];
+              $email = htmlspecialchars($_POST['email']);
+              echo $email;
               ?>"
               readonly
             />
@@ -104,8 +105,9 @@
             foreach ($daysoftheweek as $day){
               $returnText =  $returnText . ',' . $day;
             };
+            $name = htmlspecialchars($_POST['name']);
             echo "</br><input name='days' value=' ". $returnText ."' readonly />";
-            echo "</br><input name='name' value=' ". $_POST['name'] ."' readonly />";
+            echo "</br><input name='name' value=' ". $name ."' readonly />";
             ?>
           <br/>
           <input class="button is-link" type="submit" value="Submit"> 

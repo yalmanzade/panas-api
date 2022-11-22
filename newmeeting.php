@@ -16,9 +16,6 @@
       <?php
         require_once '../panas/models/meeting.php';
         require_once '../panas/data/data.php';
-        // if($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['id'] !== '' && $_GET['day'] !== ''){
-
-        // }
         ?>
         <div class="container">
             <?php
@@ -31,7 +28,7 @@
               $courses = json_decode($row['courses']);
               $available = json_decode($row['available']);
               echo"
-              <form action='../panas/api/meetings.php?id={$id}' method='post'>        
+              <form action='api/meetings.php?id={$id}' method='post'>        
               <div class='card'>
                   <div class='card-content'>
                   <div class='media'>

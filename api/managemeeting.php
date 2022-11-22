@@ -10,15 +10,15 @@
       $error = false;
       $db = new Database();
       $meeting = new Meeting($db);
-      $meeting->action = $_POST['action'];
+      $meeting->action = htmlspecialchars(strip_tags($_POST['action']));
       $meeting->id = $_POST['id'];
       if($meeting->action){
         switch($meeting->action){
             case 'delete':
                 $error = $meeting->deleteMeeting();
             case 'modify':
-                $meeting->time = $_POST['time'];
-                $meeting->date = $_POST['date'];
+                $meeting->time = htmlspecialchars(strip_tags($_POST['time']));
+                $meeting->date = htmlspecialchars(strip_tags($_POST['date']));
                 $time = (explode(":", $meeting->time));
                 $meeting->hour = $time[0];
                 $meeting->minute = $time[1];
@@ -30,14 +30,14 @@
         $vars = ['error' => 'NoAct',
                 'return' => 'login'];
         $param = http_build_query($vars);
-        header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+        header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
         exit;
       }
       if($error == false){
         $vars = ['error' => 'MeetError',
                 'return' => 'newstudent'];
         $param = http_build_query($vars);
-        header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+        header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
         exit;
       }else{
         echo 'Success: '.$meeting->action. " done. \n";
@@ -52,6 +52,6 @@
     $vars = ['error' => 'BadReq',
               'return' => 'login'];
     $param = http_build_query($vars);
-    header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+    header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
     exit;
   }

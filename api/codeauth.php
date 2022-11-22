@@ -13,13 +13,12 @@
   if ($_SERVER["REQUEST_METHOD"] == "POST"){
     try{
       $user = new User($database);
-      $auth->generated_code = $_POST['code'];
+      $auth->generated_code = htmlspecialchars(strip_tags($_POST['code']));
       $result = $auth->confirmCode();
       $user->email = trim($result["login_email"]);
-      $user = $user->getUser(trim($userTypes[$_POST['usertype']]));
+      $user = $user->getUser(trim($userTypes[htmlspecialchars(strip_tags($_POST['usertype']))]));
       if($result){
-        // sendPost($user, $result);
-        $admin = $user ["isAdmin"];
+        $admin = $user["isAdmin"];
         if($admin == 1){
           $admin = $adminCodes[random_int(0,4)];
         }else{
@@ -32,13 +31,13 @@
                 'session' => $admin];
         $param = http_build_query($vars);
         $url = "http://localhost/panas-api/result.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
-        header('Location:'.$url);
+        header('Location:'.$url, true, 301);
         exit;
       }else{
         $vars = ['error' => 'NoAuth',
                   'return' => 'login'];
         $param = http_build_query($vars);
-        header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+        header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
         exit;
       }
     }catch(Exception $ex){  
@@ -53,11 +52,11 @@
     $vars = ['error' => 'BadReq',
               'return' => 'login'];
     $param = http_build_query($vars);
-    header('Location: http://localhost/panas-api/error.php?'.$param); //DevSkim: ignore DS137138 until 2022-12-19 
+    header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
     exit;
   }
   function sendPost($user, $result){
-            $url = "http://localhost/panas-api/result.php"; //DevSkim: ignore DS137138 until 2022-12-13 
+        $url = "http://localhost/panas-api/result.php"; //DevSkim: ignore DS137138 until 2022-12-13 
         $data = array("message"=>"Success",
                       "name"=>$result['name'],
                       "email"=> $result["login_email"],
