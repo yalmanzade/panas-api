@@ -1,4 +1,5 @@
 <?php
+  session_start();
   header('Access-Control-Allow-Origin: *');   
   header('Content-Type: application/json');   
   header('Access-Control-Allow-Methods: POST');   
@@ -21,17 +22,31 @@
           $auth->name = $user->name;
           $auth->login_email = $user->email;
           $auth->authUser();
-          $vars = ['message' => 'Auth Success',
-                'name' => $user->name,
-                'email' => $user->email,
-                'confirmation' => false,
-                'usertype' => $userType];
-          $param = http_build_query($vars);
-          $url = "http://localhost/panas-api/result.php?".$param; //DevSkim: ignore DS137138 until 2022-12-12 
-          header('Location:'.$url);
-          exit;
-      }else{  
-        // $errorCodes['NoUser'] = "We could not find this user $user->email please try registering again or contact support.";
+          if(session_status() === 2){
+            $_SESSION["message"] = "Authentication Success";
+            $_SESSION["name"] = $user->name;
+            $_SESSION["email"] = $user->email;
+            $_SESSION["confirmation"] = false;
+            $_SESSION["usertype"] = $userType;
+            // $vars = ['message' => 'Auth Success',
+            //       'name' => $user->name,
+            //       'email' => $user->email,
+            //       'confirmation' => false,
+            //       'usertype' => $userType];
+            // $param = http_build_query($vars);
+            $url = "http://localhost/panas-api/result.php"; //DevSkim: ignore DS137138 until 2022-12-12 
+            header('Location:'.$url, true, 301);
+            exit;
+          }else{
+            $vars = ['error' => 'SeErr',
+                    'return' => 'login'];
+            $param = http_build_query($vars);
+            header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+            exit;
+          }
+      }else{
+        $newCode = array('NoUser'=>"We could not find this user $user->email please try registering again or contact support.");
+        $errorCodes = array_merge($newCode, $errorCodes);
         $vars = ['error' => 'NoUser',
                 'return' => 'newstudent'];
         $param = http_build_query($vars);
@@ -45,10 +60,10 @@
       $user = null;
     }
   }else{
-    // $vars = ['error' => 'BadReq',
-    //           'return' => 'login'];
-    // $param = http_build_query($vars);
-    // header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
-    // exit;
+    $vars = ['error' => 'BadReq',
+              'return' => 'login'];
+    $param = http_build_query($vars);
+    header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+    exit;
   }
 

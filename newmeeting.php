@@ -14,11 +14,21 @@
   <body>
     <main>
       <?php
-        require_once '../panas/models/meeting.php';
-        require_once '../panas/data/data.php';
+        session_start();
+        if(session_status() === 0 || session_status() === 1){
+        $vars = ['error' => 'FAuth',
+                  'return' => 'index'];
+        $param = http_build_query($vars);
+        header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+        exit;
+        }
         ?>
         <div class="container">
             <?php
+            require_once './models/meeting.php';
+            // require_once '../panas/data/data.php';
+            require_once './models/database.php';
+            $db = new Database();
             $meeting = new Meeting($db);
             $courses = $meeting->getCourses();
             foreach($courses as $row){
@@ -28,7 +38,7 @@
               $courses = json_decode($row['courses']);
               $available = json_decode($row['available']);
               echo"
-              <form action='api/meetings.php?id={$id}' method='post'>        
+              <form action='api/meetings.php?temail=$email' method='post'>        
               <div class='card'>
                   <div class='card-content'>
                   <div class='media'>
@@ -67,9 +77,8 @@
             <input type='date' id='date' name="date"
               min="2022-11-06" required>
             <input class="input button is-link" type="submit" value="Book">
-            <input type="text" name="action" id="action" value="new" hidden>
             <?php
-            echo "<input name='email' type='text' value='{$email}' />";
+            // echo "<input name='email' type='text' value='{$email}' />";
             ?>
             <?php
               echo 

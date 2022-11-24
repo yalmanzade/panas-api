@@ -1,5 +1,6 @@
 <?php
   // Headers
+  session_start();
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
   header('Access-Control-Allow-Methods: POST');
@@ -16,26 +17,45 @@
       $auth->generated_code = htmlspecialchars(strip_tags($_POST['code']));
       $result = $auth->confirmCode();
       $user->email = trim($result["login_email"]);
-      $user = $user->getUser(trim($userTypes[htmlspecialchars(strip_tags($_POST['usertype']))]));
+      $userType = trim($userTypes[htmlspecialchars(strip_tags($_POST['usertype']))]);
+      $userData = $user->getUser($userType);
       if($result){
-        $admin = $user["isAdmin"];
-        if($admin == 1){
-          $admin = $adminCodes[random_int(0,4)];
-        }else{
-          $admin = 0000;
+        if(isset($_SESSION['newregistration']) && $_SESSION['newregistration'] == 1){
+          $user->confirmUser($userType);
         }
-        $vars = ['message' => 'Auth Success',
-                'name' => $result['name'],
-                'email' => $result["login_email"],
-                'confirmation' => True,
-                'session' => $admin];
-        $param = http_build_query($vars);
-        $url = "http://localhost/panas-api/result.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
-        header('Location:'.$url, true, 301);
-        exit;
+        $admin = $userData["isAdmin"];
+        if($admin == 1 && $userType == 'tutors'){
+          $admin = $adminCodes[random_int(0,4)];
+          $_SESSION['userid'] = $userData['tutor_id'];
+        if($admin == 0 && $userType == 'tutors'){
+          $_SESSION['userid'] = $userData['tutor_id'];
+          $admin = 0;
+        }
+        }else{
+          $_SESSION['userid'] = $userData['student_id'];
+          // var_dump($userData);
+          $admin = 0;
+        }
+        if(session_status() === 2){
+          $_SESSION['admincode'] = $admin;
+          $_SESSION['user'] = 0;
+          $_SESSION['name'] = htmlspecialchars(strip_tags($result['name']));
+          $_SESSION['email'] = htmlspecialchars(strip_tags($result['login_email']));
+          $_SESSION['confirmation'] = 1;
+          $_SESSION['session'] = 1;
+          header("Location: http://localhost/panas-api/portal.php",true, 301); //DevSkim: ignore DS137138 until 2022-12-12  
+          exit; 
+        }else{
+          // session_start();
+          $vars = ['error' => 'SeErr',
+                    'return' => 'login'];
+          $param = http_build_query($vars);
+          header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+          exit; 
+        }
       }else{
         $vars = ['error' => 'NoAuth',
-                  'return' => 'login'];
+                'return' => 'login'];
         $param = http_build_query($vars);
         header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
         exit;
@@ -55,24 +75,3 @@
     header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
     exit;
   }
-  function sendPost($user, $result){
-        $url = "http://localhost/panas-api/result.php"; //DevSkim: ignore DS137138 until 2022-12-13 
-        $data = array("message"=>"Success",
-                      "name"=>$result['name'],
-                      "email"=> $result["login_email"],
-                      "confirmation"=> true,
-                      "isAdmin" => $user ["isAdmin"]);
-        $options = array('http' => array(
-          "header" => "Content-type: application/x-www-form-urlencoded\r\n",
-          'method'  => 'POST',
-          'content' => http_build_query($data)
-        ));
-        $context  = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-        // var_dump($result);
-        if ($result === FALSE){
-          echo "Error \n";
-          return false;
-        }
-  }
-  

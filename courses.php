@@ -11,6 +11,16 @@
     />
   </head>
   <body>
+    <?php
+    session_start();
+    if($_SESSION['admincode'] == 0){
+      $vars = ['error' => 'FAuth',
+                'return' => 'index'];
+      $param = http_build_query($vars);
+      header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+      exit;
+    }
+    ?>
     <main class="container">
       <section class="section">
         <div class="container">

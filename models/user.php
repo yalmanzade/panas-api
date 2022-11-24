@@ -13,6 +13,28 @@ class User {
     {
         $this->db = $db;
     }
+    public function confirmUser($table){
+        try{
+            $this->connection = $this->db->connect();
+            // $query = 'SELECT * FROM ' .$table. ' WHERE email = ' . $this->email . ';';
+            $query = 'UPDATE ' .$table. ' SET email_confirmed = :code'. ' WHERE email = :email';
+            $stmt = $this->connection->prepare($query);
+            $stmt->bindParam(':email', $this->email);
+            $code = "1";
+            $stmt->bindParam(':code', $code);
+            $result =$stmt->execute();
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(Exception $ex){
+            echo $ex->getMessage();
+            return false;
+        }finally{
+            $this->connection = null;
+        }
+    }
     public function exists($table){
         try{
             $this->connection = $this->db->connect();
@@ -210,7 +232,6 @@ class Tutor extends User{
         $this->classlist = json_encode($this->classlist);
     }
 }
-
 class Student extends User{
     private $studentTable = 'student';
     private $error = false;

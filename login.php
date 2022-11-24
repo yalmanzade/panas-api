@@ -16,6 +16,14 @@
     <main class="container">
       <section class="section">
         <div class="container">
+        <?php
+          if(isset($_GET['message'])){
+            $name = $_GET['message'];
+            echo "<div class='notification is-success is-light'>
+                Welcome <strong>$name</strong>. You may log in now.
+              </div>";
+          }
+        ?>
           <h1 class="title">Log In</h1>
           <form action="api/userlogin.php" method="post" class="form">
             <label for="email" class="label">Email</label>

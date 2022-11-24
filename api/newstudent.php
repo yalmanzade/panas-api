@@ -1,5 +1,6 @@
 <?php
   // Headers
+  session_start();
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
   header('Access-Control-Allow-Methods: POST, GET');
@@ -28,6 +29,7 @@
             $student->id = random_int(100000,999999);
             $result = $student->registerUser();
             if ($result){
+                $_SESSION['newregistration'] = 1;
                 $vars = ['message' => $student->name];
                 $param = http_build_query($vars);
                 $url = "http://localhost/panas-api/login.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 

@@ -14,6 +14,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             array_push($tutor->meetingdays , $data);
         }
         $arrayData = explode(',', $_POST['days']);
+        $tutor->meetingtimes = array();
         foreach($arrayData as  $day){
             if($day !== ' '){
                 $meetingTime = array( "day" => $day,

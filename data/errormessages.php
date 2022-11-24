@@ -13,4 +13,7 @@ $errorCodes['BadUrl'] = "The was as problem with this URL please try again.";
 $errorCodes['CoSuc'] = "Course has been deleted.";
 $errorCodes['CoErr'] = "Course could not be deleted. Please try again or contact support";
 $errorCodes['Data'] = "Database Error. Please try again or contact support";
+$errorCodes['SeErr'] = "Session Error. Please try logging in again or contact support";
+$errorCodes['FAuth'] = "You do not have permission for this resource. Contact support";
+$errorCodes['Test'] = "Contact support";
 
