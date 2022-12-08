@@ -9,7 +9,14 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
-    <?php
+</head>
+<body>
+  <header>
+    <form action="api/logout.php" method="post">
+      <input class="button is-danger" type="submit" value="LogOut">
+    </form>
+  </header>
+       <?php
         require_once 'data/data.php';
         session_start();
         if(isset($_SESSION['confirmation'])&& $_SESSION['confirmation'] == "1"){
@@ -63,8 +70,36 @@
           }
         }
     ?>
-</head>
-<body>
-    
+    <section class="section">
+      <div class="container">
+        <table class="table">
+          <h1 class="subtitle is-3">Your Meetings</h1>
+          <thead>
+            <th>Time</th>
+            <th>Date</th>
+          </thead>
+          <tbody>
+            <?php
+              require_once 'data/data.php';
+              $meeting = new Meeting($db);
+              print("Session ID: ".$_SESSION['userid']);
+              // print("Session ID: ".$_SESSION['userID']);
+              $meetings = $meeting->getMeetings($_SESSION['userid'],$_SESSION['table']);
+              if($meetings){
+                foreach ($meetings as $row){
+                  // $time = $meeting->convertTime($row['hour'],$row['minute'],00,$row['section']);
+                  $time = $row['time'];
+                  $date = $row['date'];
+                  echo "<tr>
+                    <td>$time</td>      
+                    <td>$date</td>
+                  </tr>";
+                }
+              }
+            ?>
+          </tbody>
+        </table>
+      </div>
+    </section>
 </body>
 </html>

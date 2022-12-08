@@ -1,5 +1,4 @@
 <?php
-  // Headers
   session_start();
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
@@ -15,26 +14,52 @@
     try{
       $user = new User($database);
       $auth->generated_code = htmlspecialchars(strip_tags($_POST['code']));
+      $auth->login_email = htmlspecialchars(strip_tags($_SESSION['email']));
+      // var_dump($auth);
+      // exit;
       $result = $auth->confirmCode();
-      $user->email = trim($result["login_email"]);
-      $userType = trim($userTypes[htmlspecialchars(strip_tags($_POST['usertype']))]);
-      $userData = $user->getUser($userType);
       if($result){
+        $user->email = trim($result["login_email"]);
+        $userType = trim($userTypes[htmlspecialchars(strip_tags($_POST['usertype']))]);
+        $userData = $user->getUser($userType);
+        
         if(isset($_SESSION['newregistration']) && $_SESSION['newregistration'] == 1){
           $user->confirmUser($userType);
         }
         $admin = $userData["isAdmin"];
-        if($admin == 1 && $userType == 'tutors'){
+        if($admin == 1 && $userType == 'tutors'){   
           $admin = $adminCodes[random_int(0,4)];
+          $_SESSION['userid'] = (int)$userData["tutor_id"];
+          $_SESSION['userData'] = $userData;
+          // print("Admin Tutor");
+          // var_dump($_SESSION['userid']);
+          // var_dump($userData);
+          // exit;
+        }elseif($admin == 0 && $userType == "tutors"){
           $_SESSION['userid'] = $userData['tutor_id'];
-        if($admin == 0 && $userType == 'tutors'){
-          $_SESSION['userid'] = $userData['tutor_id'];
+          $_SESSION['table'] = "tutor_id";
           $admin = 0;
-        }
-        }else{
+          // print("Tutor");
+          // var_dump($_SESSION['userid']);
+          // var_dump($userData);
+          // exit;
+        }elseif($admin == 0 && $userType == "student"){    
           $_SESSION['userid'] = $userData['student_id'];
+          $_SESSION['table'] = "student_id";
+          // var_dump($userData);
+          print("Student");
+          print("User Type: ".$userType. " - ");
+          print("Admin: ".$admin);
+          // var_dump($_SESSION['userid']+10);
           // var_dump($userData);
           $admin = 0;
+          //exit;
+        }else{
+          $vars = ['error' => 'SeErr',
+                    'return' => 'login'];
+          $param = http_build_query($vars);
+          header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+          exit; 
         }
         if(session_status() === 2){
           $_SESSION['admincode'] = $admin;
@@ -42,11 +67,10 @@
           $_SESSION['name'] = htmlspecialchars(strip_tags($result['name']));
           $_SESSION['email'] = htmlspecialchars(strip_tags($result['login_email']));
           $_SESSION['confirmation'] = 1;
-          $_SESSION['session'] = 1;
+          $_SESSION['session'] = 1;       
           header("Location: http://localhost/panas-api/portal.php",true, 301); //DevSkim: ignore DS137138 until 2022-12-12  
           exit; 
         }else{
-          // session_start();
           $vars = ['error' => 'SeErr',
                     'return' => 'login'];
           $param = http_build_query($vars);
@@ -55,15 +79,14 @@
         }
       }else{
         $vars = ['error' => 'NoAuth',
-                'return' => 'login'];
+                  'return' => 'result'];
         $param = http_build_query($vars);
         header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
-        exit;
+        exit; 
       }
-    }catch(Exception $ex){  
-      echo "Error: ". $ex->getMessage() . "\n";
-    }
-    finally{
+    }catch(Exception $ex){
+      print("Error" .$ex->getMessage());
+    }finally{
       $connection = null;
       $database = null;
       $auth = null;

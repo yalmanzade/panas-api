@@ -88,7 +88,6 @@ class Meeting{
             echo 'Error: ' .$ex->getMessage();
         }finally{
             $this->connection = null;
-
         }
     }
     public function getTutorId(){
@@ -213,6 +212,29 @@ class Meeting{
             return false;
         }finally{
             $this->connection = null;
+        }
+    }
+    public function getMeetings($id, $idColumn){
+        try{
+            $idColumn = htmlspecialchars(strip_tags($idColumn));
+            $query = "SELECT * FROM meetings WHERE ".$idColumn. " = :id;";
+		    $this->connection = $this->db->connect();
+            $stmt = $this->connection->prepare($query);
+            //Clean Data
+            $id = htmlspecialchars(strip_tags($id));
+            //Bind Data
+            // print("Id: ".$id);
+            $stmt->bindParam(':id', $id);
+            $result = false;
+            if ($stmt->execute()){
+                $result = $stmt->fetchAll();
+            }
+        }catch (Exception $ex){
+            print("Error: ". $ex->getMessage());
+            return false;
+        }finally{
+		    $this->connection = null;
+            return $result;
         }
     }
     public function convertTime($hours,$minutes,$seconds,$meridiem){

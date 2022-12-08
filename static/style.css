@@ -1,4 +1,7 @@
 .error {
   color: white;
-  background-color: red;
+  background-color: rgb(241, 161, 161);
+}
+.my-form {
+  margin-bottom: 15px;
 }

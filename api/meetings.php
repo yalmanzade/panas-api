@@ -4,8 +4,8 @@
   header('Content-Type: application/json');
   header('Access-Control-Allow-Methods: POST');
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
-  require_once  '../models/meeting.php';
-  require_once  '../models/database.php';
+  require_once '../models/meeting.php';
+  require_once '../models/database.php';
   if($_SERVER['REQUEST_METHOD'] =='POST'){
     try{
       $db = new Database();
@@ -37,8 +37,11 @@
       $meeting->date = htmlspecialchars(strip_tags($_POST['date']));
       $result = $meeting->postMeeting();
       if($result){
-        header("Location:http://localhost/panas-api/email.html", true, 301); //DevSkim: ignore DS137138 until 2022-12-15 
-        exit();
+        $vars = ['error' => 'MSuc',
+                  'return' => 'portal'];
+        $param = http_build_query($vars);
+        header('Location: http://localhost/panas-api/success.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+        exit; 
       }
     }catch(Exception $ex){
       echo 'Error: ' .$ex->getMessage(). "\n";

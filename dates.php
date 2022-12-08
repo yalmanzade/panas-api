@@ -15,7 +15,7 @@
       <section class="section">
         <div class="container">
           <h1 class="title is-4">Add Availability</h1>
-          <form method="POST" action="../panas/api/tutorregistration.php">
+          <form method="POST" action="../panas-api/api/tutorregistration.php">
             <label class="label" for="email">Email</label>
             <input
               class="input"
@@ -31,12 +31,12 @@
             <?php 
               $days = $_POST['days'];
               foreach($days as $day){
-                $daystartMinute = $day.'startminute';
-                $daysendMinute = $day.'endminute';
-                $daystartHour = $day.'starthour';
-                $daysendHour = $day.'endhour';
-                $sectionstart = $day.'secstart';
-                $sectionend = $day.'secend';
+                $daystartMinute = str_replace(' ', '', $day.'startminute');
+                $daysendMinute = str_replace(' ', '', $day.'endminute');
+                $daystartHour = str_replace(' ', '', $day.'starthour');
+                $daysendHour = str_replace(' ', '', $day.'endhour');
+                $sectionstart = str_replace(' ', '', $day.'secstart');
+                $sectionend = str_replace(' ', '', $day.'secend');
                 echo "<label for='$day' class='label'>".$day."</label>";
                 echo "<label for='startTimes' class='label'>From</label>
                     <select name='$daystartHour'>

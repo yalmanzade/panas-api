@@ -153,7 +153,7 @@ class Tutor extends User{
             $stmt->bindParam(':courses', $this->classlist);
             $stmt->bindParam(':meetingdays', $this->meetingdays);
 
-            echo $query;
+            // echo $query;
             // Execute query
             if($stmt->execute() && $this->error == False) {
                 return $stmt;
@@ -166,8 +166,8 @@ class Tutor extends User{
             echo $ex->getMessage();
             return false;
         }finally{
-            $stmt->close();
-            $this->connection->close();
+            $stmt = null;
+            $this->connection = null;
         }
     } 
     private function postClasses($course, $tutorid){

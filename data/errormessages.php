@@ -15,5 +15,7 @@ $errorCodes['CoErr'] = "Course could not be deleted. Please try again or contact
 $errorCodes['Data'] = "Database Error. Please try again or contact support";
 $errorCodes['SeErr'] = "Session Error. Please try logging in again or contact support";
 $errorCodes['FAuth'] = "You do not have permission for this resource. Contact support";
-$errorCodes['Test'] = "Contact support";
+$errorCodes['Test'] = "Contact support.";
+$errorCodes['LogO'] = "You have been successfully logged out.";
+$errorCodes['MSuc'] = "You have successfully sheduled your meeting. We sent you an email with more details.";
 

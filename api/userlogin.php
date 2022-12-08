@@ -28,6 +28,7 @@
             $_SESSION["email"] = $user->email;
             $_SESSION["confirmation"] = false;
             $_SESSION["usertype"] = $userType;
+            $_SESSION["userID"] = $userArray[$userType];
             // $vars = ['message' => 'Auth Success',
             //       'name' => $user->name,
             //       'email' => $user->email,
