@@ -25,6 +25,9 @@
           <input class="button is-danger" type="reset" value="Reset" />
         </form>
       </section>
+      <section class="container">
+        <a href="index.php"><button class="button is-light">Home</button></a>
+      </section>
     </main>
   </body>
 </html>

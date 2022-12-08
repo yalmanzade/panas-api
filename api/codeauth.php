@@ -31,6 +31,7 @@
           $admin = $adminCodes[random_int(0,4)];
           $_SESSION['userid'] = (int)$userData["tutor_id"];
           $_SESSION['userData'] = $userData;
+          $_SESSION['table'] = "tutor_id";
           // print("Admin Tutor");
           // var_dump($_SESSION['userid']);
           // var_dump($userData);

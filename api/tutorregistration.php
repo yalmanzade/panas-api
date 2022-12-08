@@ -6,12 +6,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $db = new Database();
         $tutor = new Tutor($db);
         $arrayData = explode(',', $_POST['courses']);
+        array_shift($arrayData);
         foreach($arrayData as $data){
             if(!empty($data)){
                 array_push($tutor->classlist, $data);
             }
         }
         $arrayData = explode(',', $_POST['days']);
+        array_shift($arrayData);
         foreach($arrayData as  $data){;
             if(!empty($data)){
                 array_push($tutor->meetingdays , $data);

@@ -45,6 +45,7 @@
                       <option value='03'>03</option>
                       <option value='04'>04</option>
                       <option value='05'>05</option>
+                      <option value='06'>06</option>
                       <option value='07'>07</option>
                       <option value='08'>08</option>
                       <option value='09'>09</option>

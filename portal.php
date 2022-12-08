@@ -82,7 +82,7 @@
             <?php
               require_once 'data/data.php';
               $meeting = new Meeting($db);
-              print("Session ID: ".$_SESSION['userid']);
+              print("User ID: ".$_SESSION['userid']);
               // print("Session ID: ".$_SESSION['userID']);
               $meetings = $meeting->getMeetings($_SESSION['userid'],$_SESSION['table']);
               if($meetings){
