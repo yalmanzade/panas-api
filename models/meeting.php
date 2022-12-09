@@ -55,7 +55,7 @@ class Meeting{
                 // echo 'Tutor Id is: ' .$this->tutorId;
             }else{
                 echo 'Could not get ID at Meeting.php';
-                exit;
+                return false;
             }
             //Clean Data
             $this->id = htmlspecialchars(strip_tags($this->id));
@@ -86,9 +86,9 @@ class Meeting{
 
         }catch (Exception $ex){
             echo 'Error: ' .$ex->getMessage();
+            return false;
         }finally{
             $this->connection = null;
-
         }
     }
     public function getTutorId(){
@@ -115,6 +115,7 @@ class Meeting{
                 $this->connection = $this->db->connect();
                 $stmt = $this->connection->prepare($query);
                 //Clean data
+                //Not cleaning the rest of the data on purpose
                 $this->time = htmlspecialchars(strip_tags($this->time));
                 //Bind Data
                 $stmt->bindParam(':id', $this->id);
@@ -150,7 +151,11 @@ class Meeting{
             if($this->id){
                 $query = 'UPDATE meetings SET time=?, date=?, hour=?, minute=? WHERE meeting_id=? ;';
                 $this->connection = $this->db->connect();
+                //Prepare connection
                 $stmt = $this->connection->prepare($query);
+                //Clean Data
+                //Not cleaning the rest of the data on purpose
+                $this->id = htmlspecialchars(strip_tags($this->id));
                 //Bind Data
                 if($stmt->execute([$this->time,$this->date,$this->hour,$this->minute,$this->id])){
                     return true;
@@ -171,6 +176,8 @@ class Meeting{
                 $query = 'UPDATE meetings SET confirmed=? WHERE meeting_id=? ;';
                 $this->connection = $this->db->connect();
                 $stmt = $this->connection->prepare($query);
+                //Clean Data
+                $this->id = htmlspecialchars(strip_tags($this->id));
                 //Bind Data
                 if($stmt->execute([1,$this->id])){
                     return true;
@@ -191,6 +198,8 @@ class Meeting{
                 $query = 'DELETE from meetings WHERE meeting_id = :id;';
                 $this->connection = $this->db->connect();
                 $stmt = $this->connection->prepare($query);
+                //Clean Data
+                $this->id = htmlspecialchars(strip_tags($this->id));
                 //Bind Data
                 $stmt->bindParam(':id', $this->id);
                 if($stmt->execute()){
@@ -204,6 +213,29 @@ class Meeting{
             return false;
         }finally{
             $this->connection = null;
+        }
+    }
+    public function getMeetings($id, $idColumn){
+        try{
+            $idColumn = htmlspecialchars(strip_tags($idColumn));
+            $query = "SELECT * FROM meetings WHERE ".$idColumn. " = :id;";
+		    $this->connection = $this->db->connect();
+            $stmt = $this->connection->prepare($query);
+            //Clean Data
+            $id = htmlspecialchars(strip_tags($id));
+            //Bind Data
+            // print("Id: ".$id);
+            $stmt->bindParam(':id', $id);
+            $result = false;
+            if ($stmt->execute()){
+                $result = $stmt->fetchAll();
+            }
+        }catch (Exception $ex){
+            print("Error: ". $ex->getMessage());
+            return false;
+        }finally{
+		    $this->connection = null;
+            return $result;
         }
     }
     public function convertTime($hours,$minutes,$seconds,$meridiem){

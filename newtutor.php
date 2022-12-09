@@ -9,13 +9,25 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
+    <link rel="stylesheet" href="static/style.css">
+    <script src="scripts/validation.js" defer></script>
   </head>
 </head>
 <body>
+    <?php
+        session_start();
+        if($_SESSION['admincode'] == 0){
+        $vars = ['error' => 'FAuth',
+                    'return' => 'index'];
+        $param = http_build_query($vars);
+        header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+        exit;
+        }
+    ?>
     <main>
         <section class="section container">
             <h1 class="title">Create New Tutor</h1>
-            <form class="form" method='POST' action="../panas/dates.php">
+            <form class="form" method='POST' action="dates.php">
                 <label class="label" for="name">Name</label>
                 <input class="input" type="text" name="name" id="name" required />
                 <label class="label" for="email">Email</label>
@@ -31,7 +43,7 @@
                             id="'.$course['course_name'].'"
                             name="courses[]"
                             value="'.$course["course_name"].' "               
-                        />';
+                            />';
                     echo " " . $course['course_name'] . "</label>";
                     };
                 ?>
@@ -41,7 +53,7 @@
                     $checkbox = "checkbox";
                     foreach ($daysoftheweek as $day){
                         echo "<label for='$day' class='$label $checkbox'>
-                        <input class='$checkbox' type='$checkbox' name='days[]' value='$day' id='$day' />
+                        <input class='$checkbox' type='$checkbox' name='days[]' value='$day' id='$day'/>
                         $day</label>";};
                 ?>
                 <input class="button is-link" type="submit" value="Sign Up" />

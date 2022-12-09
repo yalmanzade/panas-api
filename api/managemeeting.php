@@ -5,21 +5,20 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
   require_once  '../models/meeting.php';
   require_once  '../models/database.php';
-
   if($_SERVER['REQUEST_METHOD'] =='POST'){
     try{
       $error = false;
       $db = new Database();
       $meeting = new Meeting($db);
-      $meeting->action = $_POST['action'];
+      $meeting->action = htmlspecialchars(strip_tags($_POST['action']));
       $meeting->id = $_POST['id'];
       if($meeting->action){
         switch($meeting->action){
             case 'delete':
                 $error = $meeting->deleteMeeting();
             case 'modify':
-                $meeting->time = $_POST['time'];
-                $meeting->date = $_POST['date'];
+                $meeting->time = htmlspecialchars(strip_tags($_POST['time']));
+                $meeting->date = htmlspecialchars(strip_tags($_POST['date']));
                 $time = (explode(":", $meeting->time));
                 $meeting->hour = $time[0];
                 $meeting->minute = $time[1];
@@ -28,12 +27,20 @@
                 $error = $meeting->confirmMeeting();
         }
       }else{
-        echo 'Empty Action';
+        $vars = ['error' => 'NoAct',
+                'return' => 'login'];
+        $param = http_build_query($vars);
+        header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+        exit;
       }
       if($error == false){
-        echo 'Error at managing meeting: '.$error. "\n";
+        $vars = ['error' => 'MeetError',
+                'return' => 'newstudent'];
+        $param = http_build_query($vars);
+        header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+        exit;
       }else{
-        echo 'No error: '.$meeting->action. " done. \n";
+        echo 'Success: '.$meeting->action. " done. \n";
       }
     }catch(Exception $ex){
       echo 'Error: ' .$ex->getMessage() . "\n";
@@ -42,5 +49,9 @@
       $db = null;
     }
   }else{
-    echo "Bad Request. \n";
+    $vars = ['error' => 'BadReq',
+              'return' => 'login'];
+    $param = http_build_query($vars);
+    header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+    exit;
   }

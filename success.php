@@ -14,12 +14,21 @@
     <main>
       <section class="section">
         <div class="container">
-          <div class="notification is-primary is-light">
-            <h1 class="title is-3">Success!</h1>
+          <div class="notification is-success is-light">
+            <h1 class="title is-3">Success</h1>
             <p class="subtitle is-4">
-              Check your email for an confirmation email.
+              <?php 
+              require_once 'data/errormessages.php';
+              $code = $_GET['error'];
+              echo $errorCodes[$code];
+              ?>
             </p>
           </div>
+          <a href="<?php 
+          $returnText = $_GET['return']. ".php";
+          echo $returnText ?>"
+            ><button class="button is-light is-large">Return</button></a
+          >
         </div>
       </section>
     </main>

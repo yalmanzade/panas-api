@@ -1,5 +1,6 @@
 <?php
   // Headers
+  session_start();
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
   header('Access-Control-Allow-Methods: POST, GET');
@@ -13,25 +14,33 @@
     $db = $database->connect();
     $auth = new Auth($db);
     try{
-        $auth->name = strip_tags($_POST['name']);
-        $student->name = strip_tags($_POST['name']);
-        $student->email = strip_tags($_POST['email']);
-        $auth->login_email = strip_tags($_POST['email']);
+        $auth->name = htmlspecialchars(strip_tags($_POST['name']));
+        $student->name =  htmlspecialchars(strip_tags($_POST['name']));
+        $student->email =  htmlspecialchars(strip_tags($_POST['email']));
+        $auth->login_email =  htmlspecialchars(strip_tags($_POST['email']));
         $userExists = $student->studentExists();
         if($userExists == true){
-            echo "User $student->name is already registered. Please log in.\n";
+            $vars = ['error' => 'UserEx',
+                    'return' => 'login'];
+            $param = http_build_query($vars);
+            header('Location: http://localhost/panas-api/warning.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
             exit;
         }else{
             $student->id = random_int(100000,999999);
             $result = $student->registerUser();
             if ($result){
+                $_SESSION['newregistration'] = 1;
                 $vars = ['message' => $student->name];
                 $param = http_build_query($vars);
-                $url = "http://localhost/panas/login.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
-                header('Location:'.$url);
+                $url = "http://localhost/panas-api/login.php?" .$param; //DevSkim: ignore DS137138 until 2022-12-12 
+                header('Location:'.$url, true, 301);
                 exit;
             }else{
-                echo "Failed to register $student->name. Please try again.";
+                $vars = ['error' => 'StuReg',
+                        'return' => 'login'];
+                $param = http_build_query($vars);
+                header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+                exit;
             }
         }
     }catch(Exception $ex){
@@ -41,5 +50,9 @@
         $db = null;
     }
 }else{
-  echo "Error: Bad Post Request.\n";
+    $vars = ['error' => 'BadReq',
+              'return' => 'login'];
+    $param = http_build_query($vars);
+    header('Location: http://localhost/panas-api/error.php?'.$param, true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+    exit;
 }

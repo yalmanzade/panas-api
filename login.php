@@ -9,13 +9,33 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
+    <link rel="stylesheet" href="static/style.css">
+    <script src="scripts/validation.js" defer></script>
   </head>
   <body>
+    <header>
+      <?php
+        session_start();
+        if(isset($_SESSION['session'])){
+          header('Location: http://localhost/panas-api/portal.php',true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+          exit;
+        }
+
+      ?>
+    </header>
     <main class="container">
       <section class="section">
         <div class="container">
+        <?php
+          if(isset($_GET['message'])){
+            $name = $_GET['message'];
+            echo "<div class='notification is-success is-light'>
+                Welcome <strong>$name</strong>. You may log in now.
+              </div>";
+          }
+        ?>
           <h1 class="title">Log In</h1>
-          <form action="api/login.php" method="POST" class="form">
+          <form action="api/userlogin.php" method="post" class="form">
             <label for="email" class="label">Email</label>
             <input
               type="email"
@@ -24,7 +44,8 @@
               name="email"
               required
             />
-            <select name="usertype" id="usertype" required>
+            <label for="usertype" class="label">Login As</label>
+            <select type="select" name="usertype" id="usertype" required>
               <option value="0">Student</option>
               <option value="1">Tutor</option>
             </select>

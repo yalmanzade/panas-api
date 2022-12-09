@@ -9,12 +9,14 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
+    <link rel="stylesheet" href="static/style.css">
+    <script src="scripts/validation.js" defer></script>
   </head>
   <body>
     <main>
       <section class="section container">
         <h1 class="title">Create New Student</h1>
-        <form method='POST' action="../panas/api/newstudent.php">
+        <form method='POST' action="api/newstudent.php">
           <label class="label" for="name">Name</label>
           <input class="input" type="text" name="name" id="name" required />
           <label class="label" for="email">Email</label>
@@ -22,6 +24,9 @@
           <input class="button is-link" type="submit" value="Sign Up" />
           <input class="button is-danger" type="reset" value="Reset" />
         </form>
+      </section>
+      <section class="container">
+        <a href="index.php"><button class="button is-light">Home</button></a>
       </section>
     </main>
   </body>
