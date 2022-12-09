@@ -39,23 +39,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         echo "<div>Name: $tutor->name</div>";
         echo "<div>Email: $tutor->email</div>";
         echo "<div>Meeting Times: </div>";
+        echo "<ul>";
         foreach($tutor->meetingtimes as $day){
-            echo "<div>";
+            echo "<li>";
             echo $day['day']. ": \n";
             echo "<strong> From </strong> ";
             echo $day['starthour'] . ':' . $day['startminute'] .' '. $day['secstart'] ;
             echo '<strong> Until </strong>';
             echo $day['endhour'] . ':' . $day['endminute'] .' '. $day['secend'] ;
-            echo "</div>";
+            echo "</li>";
         };
+        echo "</ul>";
         echo "<div>Your are teaching:</div>";
+        echo "<ul>";
         foreach($tutor->classlist as $course){
-            echo $course . "\n";
+            echo "<li>$course</li>";
         }
+        echo "</ul>";
         $result = $tutor->registerTutor();
         if($result){
-            echo "<div>Congratulations, $tutor->name </div>";
-            echo 'You are a tutor!';
+            echo "<div>Congratulations, $tutor->name.</div>";
+            echo '<strong>You are a tutor!</strong>';
         }else{
             $vars = ['error' => 'TutorReg',
                     'return' => 'login'];

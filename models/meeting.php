@@ -55,7 +55,7 @@ class Meeting{
                 // echo 'Tutor Id is: ' .$this->tutorId;
             }else{
                 echo 'Could not get ID at Meeting.php';
-                exit;
+                return false;
             }
             //Clean Data
             $this->id = htmlspecialchars(strip_tags($this->id));
@@ -86,6 +86,7 @@ class Meeting{
 
         }catch (Exception $ex){
             echo 'Error: ' .$ex->getMessage();
+            return false;
         }finally{
             $this->connection = null;
         }

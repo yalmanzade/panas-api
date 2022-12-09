@@ -64,7 +64,7 @@
             }
             echo "
             </select>
-            <input type='submit' value='Delete'/>
+            <input class='button is-danger' type='submit' value='Delete'/>
             </form>
             </div>";
           }

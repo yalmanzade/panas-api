@@ -7,7 +7,7 @@
   require_once '../models/database.php';
   require_once '../models/auth.php';
   require_once '../data/errormessages.php';
-  var_dump($_POST);
+  // var_dump($_POST);
   $userTypes = array('student', 'tutors');  
   if ($_SERVER["REQUEST_METHOD"] == "POST"){
     try{

@@ -43,7 +43,7 @@
                             id="'.$course['course_name'].'"
                             name="courses[]"
                             value="'.$course["course_name"].' "               
-                        />';
+                            />';
                     echo " " . $course['course_name'] . "</label>";
                     };
                 ?>
@@ -53,7 +53,7 @@
                     $checkbox = "checkbox";
                     foreach ($daysoftheweek as $day){
                         echo "<label for='$day' class='$label $checkbox'>
-                        <input class='$checkbox' type='$checkbox' name='days[]' value='$day' id='$day' />
+                        <input class='$checkbox' type='$checkbox' name='days[]' value='$day' id='$day'/>
                         $day</label>";};
                 ?>
                 <input class="button is-link" type="submit" value="Sign Up" />

@@ -117,7 +117,7 @@ class Tutor extends User{
     }
     public function deleteTutor(){
         try{
-            $query = "SELECT * FROM tutors WHERE tutor_id = :id";
+            $query = "DELETE FROM tutors WHERE tutor_id = :id";
             $this->connection = $this->db->connect();
             //Prepare Statement
             $stmt = $this->connection->prepare($query);

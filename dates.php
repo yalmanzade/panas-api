@@ -63,8 +63,8 @@
                       <option value='50'>50</option>
                     </select>
                     <select name='$sectionstart'>
-                      <option value='AM'>AM</option>
                       <option value='PM'>PM</option>
+                      <option value='AM'>AM</option>
                     </select>
                     <label for='end_times' class='label'>To</label>
                     <select name='$daysendHour'>
@@ -90,8 +90,8 @@
                       <option value='50'>50</option>
                     </select>
                     <select name='$sectionend'>
-                      <option value='AM'>AM</option>
                       <option value='PM'>PM</option>
+                      <option value='AM'>AM</option>
                     </select>";
               };
             

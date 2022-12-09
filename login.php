@@ -13,6 +13,16 @@
     <script src="scripts/validation.js" defer></script>
   </head>
   <body>
+    <header>
+      <?php
+        session_start();
+        if(isset($_SESSION['session'])){
+          header('Location: http://localhost/panas-api/portal.php',true, 301); //DevSkim: ignore DS137138 until 2022-12-19 
+          exit;
+        }
+
+      ?>
+    </header>
     <main class="container">
       <section class="section">
         <div class="container">

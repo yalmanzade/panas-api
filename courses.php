@@ -43,9 +43,6 @@
                 foreach($courses as $row){
                   echo '<option value="' .$row['course_code']. '">'.$row['course_name'] . '<option>';
                 }
-                foreach($courses as $course){
-                  echo $course["course_name"];
-                }
               ?>
             </select>
             <input type="submit" value="Delete" class="button is-danger" />
