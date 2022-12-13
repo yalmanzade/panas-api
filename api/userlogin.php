@@ -35,7 +35,7 @@
             //       'confirmation' => false,
             //       'usertype' => $userType];
             // $param = http_build_query($vars);
-            $url = "http://localhost/panas-api/result.php"; //DevSkim: ignore DS137138 until 2022-12-12 
+            $url = "http://localhost/panas-api/result.php"; //DevSkim: ignore DS137138 until 2022-12-16 
             header('Location:'.$url, true, 301);
             exit;
           }else{
