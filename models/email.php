@@ -51,7 +51,7 @@ class Email{
         $this->mailer->Subject = 'New Meeting';
         $this->mailer->isHTML(true);
         $this->mailer->Body = "<p> Meeting Date: $meeting->date</p>";
-        $this->mailer->Body = "<a href='http://localhost/panas/editmeeting.php?id=$meeting->id&session=1'>Edit Meeting (Tutor)</a>"; //DevSkim: ignore DS137138 until 2022-12-12 
+        $this->mailer->Body = "<a href='http://localhost/panas/editmeeting.php?id=$meeting->id&session=1'>Edit Meeting (Tutor)</a>"; //DevSkim: ignore DS137138 until 2022-12-19 
         if($this->mailer->send()){
             return true;
         }else{
@@ -61,12 +61,12 @@ class Email{
         }
         // return true;
     }
-        public function SendTutorMeetingConfirmation($meeting){
+    public function SendTutorMeetingConfirmation($meeting){
         $this->prepareEmail();
         $this->mailer->Subject = 'New Meeting';
         $this->mailer->isHTML(true);
         $this->mailer->Body = "<p> Meeting Date: $meeting->date</p>";
-        $this->mailer->Body = "<a href='http://localhost/panas/editmeeting.php?id=$meeting->id'>Edit Meeting</a>"; //DevSkim: ignore DS137138 until 2022-12-12 
+        $this->mailer->Body = "<a href='http://localhost/panas/editmeeting.php?id=$meeting->id'>Edit Meeting</a>"; //DevSkim: ignore DS137138 until 2022-12-19
         if($this->mailer->send()){
             // echo 'Message has been sent.';
             // echo "\r";
